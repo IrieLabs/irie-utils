@@ -1,0 +1,4 @@
+#!/bin/sh
+# Ensure all commit messages adhere to the conventional-changelog format
+export PATH=/usr/local/bin:$PATH
+./node_modules/validate-commit-msg/lib/cli.js $1
