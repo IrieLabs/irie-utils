@@ -1,5 +1,6 @@
 # irie-utils
 
+[![NPM version](http://img.shields.io/npm/v/irie-utils.svg)](https://www.npmjs.com/package/irie-utils)
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
