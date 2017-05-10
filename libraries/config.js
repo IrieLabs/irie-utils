@@ -81,5 +81,8 @@ module.exports = function (appName, options) {
     return parseFloat(nconf.get(key))
   }
 
+  nconf.isDev = process.env.NODE_ENV === 'development' || _.isEmpty(process.env.NODE_ENV)
+  nconf.isProd = process.env.NODE_ENV === 'production'
+
   return nconf
 }
