@@ -28,14 +28,18 @@ const _ = require('lodash')
 const nconf = require('nconf')
 const konphyg = require('konphyg')
 
-module.exports = function (appName, options) {
+module.exports = function (defaults, options) {
   options = options || {}
-  var path = options.path || './configs'
-  var separator = options.separator || '__'
-
-  // Let konphyg grab the default config for the current NODE_ENV
-  const defaults = konphyg(path, options.environment)(appName)
+  const path = options.path || './configs'
+  const separator = options.separator || '__'
   const whitelist = []
+
+  if (_.isString(defaults)) {
+    // Let konphyg grab the default config for the current NODE_ENV
+    defaults = konphyg(path, options.environment)(defaults)
+  } else if (!_.isPlainObject(defaults)) {
+    throw new Error('Invalid defaults params for config utility')
+  }
 
   // Convert all keys to flat ENV_const format
   // {A: 1, FOO: {BAR: 2}} ==> A=1, FOO__BAR=2
