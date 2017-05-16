@@ -48,7 +48,7 @@ function bootstrap (nconf, berrCodes) {
     return
   }
 
-  var options = {
+  const options = {
     // Call process.exit(1) when an uncaught exception occurs but after reporting all
     // pending errors to Rollbar.
     exitOnUncaughtException: true,
