@@ -15,8 +15,9 @@ Collection of general purpose utilities:
 - **image-downloader:** specific downloader for images with caching support
 - **math:** mathematical utilities
 - **merge-sort:** implementation of the merge-sort algorithm
+- **money:** utilities for dealing with money calculations and formatting
 - **read-huge-file:** file reader specifically designed for huge files
 - **requie-all:** require modules in a folder
-- **strings:** collection os string utilities not included in `lodash`
+- **strings:** collection of string utilities not included in `lodash`
 - **tmp:** create temporal files
 - **validations:** basic bunch of validators
