@@ -11,25 +11,33 @@ function readHugeFile (filePath, lineProcessor, options) {
   // dummy line processor, useful for counting lines only
   if (!lineProcessor) {
     const resolvedPromise = Promise.resolve()
-    lineProcessor = () => {
-      return resolvedPromise
-    }
+    lineProcessor = () => resolvedPromise
   }
 
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     // based on http://stackoverflow.com/a/23695940
-    let lineNr = 0
+    const summary = {
+      lines: 0,
+      empties: 0
+    }
     const s = fs.createReadStream(filePath)
       .pipe(es.split())
-      .pipe(es.mapSync(function (line) {
+      .pipe(es.mapSync(line => {
         // pause the readstream
         s.pause()
-        lineNr += 1
+        summary.lines += 1
 
-        if (!options.startAfterLine || lineNr > options.startAfterLine) {
+        if (!options.startAfterLine || summary.lines > options.startAfterLine) {
+          if (!line) {
+            summary.empties += 1
+            if (options.discardEmpties) {
+              s.resume()
+              return
+            }
+          }
           // process line here and call s.resume() when rdy
           // function below was for logging memory usage
-          lineProcessor(lineNr, line)
+          lineProcessor(summary.lines, line)
           .then(() => {
             // resume the readstream
             s.resume()
@@ -38,8 +46,8 @@ function readHugeFile (filePath, lineProcessor, options) {
             s.end()
             reject(err)
           })
-        } else if (lineNr === options.startAfterLine) {
-          options.logger('Last line skipped: #' + lineNr, line)
+        } else if (summary.lines === options.startAfterLine) {
+          options.logger('Last line skipped: #' + summary.lines, line)
           s.resume()
         } else {
           s.resume()
@@ -49,7 +57,7 @@ function readHugeFile (filePath, lineProcessor, options) {
         reject(err)
       })
       .on('end', () => {
-        resolve(lineNr)
+        resolve(summary)
       })
     )
   })

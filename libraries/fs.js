@@ -6,7 +6,7 @@ const tmp = require('./tmp')
 module.exports = {
   readHugeFile,
   tmpFile: tmp.file,
-  countFileLines: filePath => {
-    return readHugeFile(filePath)
+  countFileLines: (filePath, discardEmpties) => {
+    return readHugeFile(filePath, undefined, { discardEmpties })
   }
 }
