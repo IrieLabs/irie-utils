@@ -4,7 +4,18 @@ const fs = require('fs')
 const es = require('event-stream')
 const Promise = require('bluebird')
 
-function readHugeFile (filePath, processLine, options) {
+function readHugeFile (filePath, lineProcessor, options) {
+  options = options || {}
+  options.logger = options.logger || function noLog () {}
+
+  // dummy line processor, useful for counting lines only
+  if (!lineProcessor) {
+    const resolvedPromise = Promise.resolve()
+    lineProcessor = () => {
+      return resolvedPromise
+    }
+  }
+
   return new Promise(function (resolve, reject) {
     // based on http://stackoverflow.com/a/23695940
     let lineNr = 0
@@ -18,27 +29,27 @@ function readHugeFile (filePath, processLine, options) {
         if (!options.startAfterLine || lineNr > options.startAfterLine) {
           // process line here and call s.resume() when rdy
           // function below was for logging memory usage
-          processLine(lineNr, line)
-          .then(function () {
+          lineProcessor(lineNr, line)
+          .then(() => {
             // resume the readstream
             s.resume()
           })
-          .catch(function (err) {
+          .catch(err => {
             s.end()
             reject(err)
           })
         } else if (lineNr === options.startAfterLine) {
-          console.log('Last line skipped: #' + lineNr, line)
+          options.logger('Last line skipped: #' + lineNr, line)
           s.resume()
         } else {
           s.resume()
         }
       })
-      .on('error', function (err) {
+      .on('error', err => {
         reject(err)
       })
-      .on('end', function () {
-        resolve()
+      .on('end', () => {
+        resolve(lineNr)
       })
     )
   })

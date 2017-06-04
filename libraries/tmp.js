@@ -13,17 +13,13 @@ const Promise = require('bluebird')
 const tmp = Promise.promisifyAll(require('tmp'), promisificationOptions)
 
 module.exports = {
-  file: function createTempFile (extension) {
+  file: function createTempFile (extension, prefix) {
     return tmp.fileAsync({
-      prefix: 'facturero-',
+      prefix: prefix || 'tmp-',
       postfix: '.' + (extension || 'tmp')
     })
     .spread(function (path, fd, cleaner) {
-      return {
-        path: path,
-        fd: fd,
-        cleaner: cleaner
-      }
+      return { path, fd, cleaner }
     })
   }
 }
