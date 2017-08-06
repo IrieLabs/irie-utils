@@ -11,7 +11,6 @@ Collection of general purpose utilities:
 - **downloader:** download a file as stream, as a temp file and deal with images
 - **email-verifier:** email address validation
 - **entity-parser:** generic functions for parsing input
-- **errors:** generic REST HTTP errors
 - **image-downloader:** specific downloader for images with caching support
 - **math:** mathematical utilities
 - **merge-sort:** implementation of the merge-sort algorithm
