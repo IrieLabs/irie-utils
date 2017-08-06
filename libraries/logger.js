@@ -1,17 +1,20 @@
 'use strict'
 
 const console = {
-  debug: msg => {
-    console.log(msg)
+  debug: (...params) => {
+    console.log(...params)
   },
-  info: msg => {
-    console.info(msg)
+  info: (...params) => {
+    console.info(...params)
   },
-  warn: msg => {
-    console.warn(msg)
+  warn: (...params) => {
+    console.warn(...params)
   },
-  error: msg => {
-    console.error(msg)
+  error: (...params) => {
+    console.error(...params)
+  },
+  critical: (...params) => {
+    console.error(...params)
   }
 }
 
@@ -20,10 +23,35 @@ const dummy = {
   debug: nolog,
   info: nolog,
   warn: nolog,
-  error: nolog
+  error: nolog,
+  critical: nolog
+}
+
+function newRollbar (accessToken, environment) {
+  // configure rollbar
+  const Rollbar = require('rollbar')
+  const rollbar = new Rollbar({
+    accessToken,
+    environment,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    // Call process.exit(1) when an uncaught exception occurs but after reporting all
+    // pending errors to Rollbar.
+    exitOnUncaughtException: true,
+    scrubHeaders: ['Authorization']
+  })
+
+  return {
+    debug: rollbar.debug.bind(rollbar),
+    info: rollbar.info.bind(rollbar),
+    warn: rollbar.warning.bind(rollbar),
+    error: rollbar.error.bind(rollbar),
+    critical: rollbar.critical.bind(rollbar)
+  }
 }
 
 module.exports = {
   console,
-  dummy
+  dummy,
+  newRollbar
 }
