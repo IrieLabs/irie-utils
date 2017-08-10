@@ -11,6 +11,13 @@ const DATES_FORMAT_ERROR = 'Fecha inválida, formato esperado ' + DATES_FORMAT +
 const AMOUNT_ERROR = 'El monto especificado es inválido. Valor recibido: '
 let parseMomentsEnabled = false
 
+function toId (obj) {
+  if (obj == null) { // double equal to test for null AND undefined
+    return undefined
+  }
+  return (obj._id && obj._id.toString()) || obj
+}
+
 function parseEntity (src, parsers) {
   _.each(parsers, function (parser) {
     parser(src)
@@ -120,9 +127,11 @@ module.exports = {
   },
 
   momentsParser: momentsJsonParser.parseValue,
-  parseMoments: parseMoments,
-  parseAmounts: parseAmounts,
-  parseCollectionItems: parseCollectionItems,
-  parseComposite: parseComposite,
-  parseEntity: parseEntity
+  parseMoments,
+  parseAmounts,
+  parseCollectionItems,
+  parseComposite,
+  parseEntity,
+
+  toId
 }
