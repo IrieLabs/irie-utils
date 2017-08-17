@@ -2,12 +2,18 @@
 
 const currencyFormatter = require('currency-formatter')
 
-function format (amount, locale = 'en') {
-  return currencyFormatter.format(amount, {
-    locale: locale
-  })
+// tools to consider
+// https://osrec.github.io/currencyFormatter.js/
+
+function format (amount, code) {
+  return currencyFormatter.format(amount, { code })
+}
+
+function formatByLocale (amount, locale = 'en') {
+  return currencyFormatter.format(amount, { locale })
 }
 
 module.exports = {
-  format
+  format,
+  formatByLocale
 }
