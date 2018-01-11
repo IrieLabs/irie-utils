@@ -5,11 +5,11 @@
 const moment = require('moment')
 
 function between (v, min, max) {
-  return v >= min && v <= max
+  return v == null ? false : v >= min && v <= max
 }
 
 function isValidDate (v) {
-  if (!v || !v.year || !v.month || !v.date) {
+  if (!v || !v.year || !between(v.month, 0, 11) || !v.date) {
     return false
   }
   const d = moment([v.year, v.month, v.date])
