@@ -2,6 +2,7 @@
 
 const _ = require('lodash')
 const emailValidator = require('email-validator').validate
+const dateUtils = require('./date')
 
 function nonEmptyValidator (value) {
   return !_.isEmpty(value)
@@ -60,6 +61,14 @@ function buildBetweenValidator (min, max) {
   }
 }
 
+function buildDateOnlyValidator () {
+  return dateUtils.isValidDate
+}
+
+function buildTimeOnlyValidator () {
+  return dateUtils.isValidDate
+}
+
 function compositeValidator (...validators) {
   if (_.isEmpty(validators)) {
     throw new Error('You need to specify at least one Validator in order to create a Composite Validator')
@@ -85,6 +94,9 @@ module.exports = {
   min: buildMinValidator,
   max: buildMaxValidator,
   between: buildBetweenValidator,
+
+  dateOnly: buildDateOnlyValidator,
+  timeOnly: buildTimeOnlyValidator,
 
   composite: compositeValidator
 }
