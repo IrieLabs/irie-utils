@@ -93,6 +93,11 @@ function toDateValue (d, t) {
   return (d.year * 100000000) + (d.month * 1000000) + (d.date * 10000) + (t.hour * 100) + t.minutes
 }
 
+function toTimestampValue (d, t, timezone) {
+  const date = toMoment(d, t, timezone)
+  return date.valueOf()
+}
+
 module.exports = {
   isValidDate,
   isValidTime,
@@ -103,5 +108,6 @@ module.exports = {
   toMoment,
   toDateOnly,
   toTimeOnly,
-  toDateValue
+  toDateValue,
+  toTimestampValue
 }
