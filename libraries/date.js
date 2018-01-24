@@ -20,6 +20,27 @@ function isValidTime (v) {
   return !!v && between(v.hour, 0, 59) && between(v.minutes, 0, 59)
 }
 
+function isToday (v, timezone) {
+  const today = toMoment(null, null, timezone)
+
+  return v.year === today.year() && v.month === today.month() && v.date === today.date()
+}
+
+function isPast (v, timezone) {
+  const today = toMoment(null, null, timezone)
+
+  if (v.year > today.year()) {
+    return false
+  } else if (v.year === today.year()) {
+    if (v.month > today.month()) {
+      return false
+    } else if (v.month === today.month() && v.date >= today.date()) {
+      return false
+    }
+  }
+  return true
+}
+
 function isPastOrToday (v, timezone) {
   const today = toMoment(null, null, timezone)
 
@@ -29,6 +50,21 @@ function isPastOrToday (v, timezone) {
     if (v.month > today.month()) {
       return false
     } else if (v.month === today.month() && v.date > today.date()) {
+      return false
+    }
+  }
+  return true
+}
+
+function isFuture (v, timezone) {
+  const today = toMoment(null, null, timezone)
+
+  if (v.year < today.year()) {
+    return false
+  } else if (v.year === today.year()) {
+    if (v.month < today.month()) {
+      return false
+    } else if (v.month === today.month() && v.date <= today.date()) {
       return false
     }
   }
@@ -102,7 +138,10 @@ module.exports = {
   isValidDate,
   isValidTime,
 
+  isToday,
+  isPast,
   isPastOrToday,
+  isFuture,
   isFutureOrToday,
 
   toMoment,
