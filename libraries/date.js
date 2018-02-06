@@ -134,6 +134,22 @@ function toTimestampValue (d, t, timezone) {
   return date.valueOf()
 }
 
+function toMonthOnly (v) {
+  if (v == null) {
+    return
+  }
+
+  const month = v % 100
+  return {
+    year: (v - month) / 100,
+    month
+  }
+}
+
+function toMonthValue (v) {
+  return v == null ? undefined : (v.year * 100) + v.month
+}
+
 module.exports = {
   isValidDate,
   isValidTime,
@@ -148,5 +164,8 @@ module.exports = {
   toDateOnly,
   toTimeOnly,
   toDateValue,
-  toTimestampValue
+  toTimestampValue,
+
+  toMonthOnly,
+  toMonthValue
 }
