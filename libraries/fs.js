@@ -8,6 +8,7 @@ module.exports = {
   readHugeFile,
   tmpFile: tmp.file,
   tmpFileFromStream: tmp.fileFromStream,
+  tmpDir: tmp.dir,
   sanitize,
   countFileLines: (filePath, discardEmpties) => {
     return readHugeFile(filePath, undefined, { discardEmpties })

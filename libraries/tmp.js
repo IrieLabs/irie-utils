@@ -38,7 +38,12 @@ function createTempFileFromStream (inputStream, extension, prefix) {
   })
 }
 
+function createTempDir (prefix) {
+  return tmp.dirAsync({ prefix })
+}
+
 module.exports = {
   file: createTempFile,
-  fileFromStream: createTempFileFromStream
+  fileFromStream: createTempFileFromStream,
+  dir: createTempDir
 }
