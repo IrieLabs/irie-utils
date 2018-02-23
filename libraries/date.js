@@ -2,7 +2,7 @@
 
 'use strict'
 
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 function between (v, min, max) {
   return v == null ? false : v >= min && v <= max
