@@ -17,6 +17,9 @@ function buildEnumValidator (list) {
     throw new Error('Empty list for EnumValidator')
   }
   return value => {
+    if (value === undefined) {
+      return true
+    }
     if (!_.isArray(value)) {
       return _.includes(list, value)
     }
