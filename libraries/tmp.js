@@ -3,6 +3,8 @@
 const _ = require('lodash')
 const Promise = require('bluebird')
 const fs = require('fs')
+const multipipe = require('multipipe')
+const streamToPromise = require('stream-to-promise')
 
 const promisificationOptions = {
   multiArgs: true,
@@ -25,11 +27,13 @@ function createTempFile (extension, prefix) {
 function createTempFileFromStream (inputStream, extension, prefix) {
   return createTempFile()
   .then(tmpFile => {
-    return new Promise((resolve, reject) => {
-      const outputStream = fs.createWriteStream(tmpFile.path).on('error', reject).on('finish', resolve)
-      inputStream.pipe(outputStream)
+    const outputStream = fs.createWriteStream(tmpFile.path)
+    const unifiedStream = multipipe(inputStream, outputStream)
+
+    return streamToPromise(unifiedStream)
+    .then(() => {
+      return Promise.resolve(tmpFile) // wrap in bluebird promise
     })
-    .then(() => tmpFile)
     .catch(err => {
       // remove temp file upon error
       tmpFile.cleaner()
