@@ -4,12 +4,12 @@
 
 const moment = require('moment-timezone')
 
-function between (v, min, max) {
+function _between (v, min, max) {
   return v == null ? false : v >= min && v <= max
 }
 
 function isValidDate (v) {
-  if (!v || !v.year || !between(v.month, 0, 11) || !v.date) {
+  if (!v || !v.year || !_between(v.month, 0, 11) || !v.date) {
     return false
   }
   const d = moment([v.year, v.month, v.date])
@@ -17,7 +17,7 @@ function isValidDate (v) {
 }
 
 function isValidTime (v) {
-  return !!v && between(v.hour, 0, 59) && between(v.minutes, 0, 59)
+  return !!v && _between(v.hour, 0, 59) && _between(v.minutes, 0, 59)
 }
 
 function isToday (v, timezone) {
@@ -108,6 +108,9 @@ function toMoment (date, time, timezone) {
 }
 
 function toDateOnly (date) {
+  if (!date) {
+    return
+  }
   return {
     year: date.year(),
     month: date.month(),
@@ -116,6 +119,9 @@ function toDateOnly (date) {
 }
 
 function toTimeOnly (time) {
+  if (!time) {
+    return
+  }
   return {
     hour: time.hour(),
     minutes: time.minutes()
