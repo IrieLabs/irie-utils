@@ -96,9 +96,10 @@ function toMoment (date, time, timezone) {
 
   const timestamp = timezone ? moment().tz(timezone) : moment()
   if (date) {
-    timestamp.date(date.date)
-    timestamp.month(date.month || date.months)
+    // IMPORTANT! assignment order matters! Must be: year -> month -> date
     timestamp.year(date.year || date.years)
+    timestamp.month(date.month == null ? date.months : date.month)
+    timestamp.date(date.date)
   }
   if (time) {
     timestamp.hour(time.hour)
