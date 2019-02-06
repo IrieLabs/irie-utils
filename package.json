@@ -1,6 +1,6 @@
 {
   "name": "irie-utils",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "private": false,
   "license": "MIT",
   "repository": {
@@ -26,7 +26,7 @@
     "isemail": "^2.2.1",
     "konphyg": "git://github.com/gastonelhordoy/konphyg.git#master",
     "lodash-deep": "^2.0.0",
-    "moment-json-parser": "git://github.com/gastonelhordoy/moment-json-parser.git#v1.0.0",
+    "moment-json-parser": "git://github.com/gastonelhordoy/moment-json-parser.git#v1.0.1",
     "multipipe": "^2.0.3",
     "nconf": "^0.7.1",
     "node-cache": "^4.1.1",
