@@ -21,7 +21,7 @@
     "diacritics": "^1.2.3",
     "download": "^7.1.0",
     "email-validator": "^1.0.7",
-    "event-stream": "3.3.4",
+    "event-stream": "^4.0.1",
     "is-json": "^2.0.1",
     "isemail": "^2.2.1",
     "konphyg": "git://github.com/gastonelhordoy/konphyg.git#master",
