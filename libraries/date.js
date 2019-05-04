@@ -20,6 +20,10 @@ function isValidTime (v) {
   return !!v && _between(v.hour, 0, 59) && _between(v.minutes, 0, 59)
 }
 
+function isValidMonthOnly (v) {
+  return v && v.year && v.month >= 0 && v.month <= 11
+}
+
 function isToday (v, timezone) {
   const today = toMoment(null, null, timezone)
 
@@ -144,6 +148,8 @@ function toTimestampValue (d, t, timezone) {
 function toMonthOnly (v) {
   if (v == null) {
     return
+  } else if (typeof v === 'string') {
+    v = parseInt(v)
   }
 
   const month = v % 100
@@ -160,6 +166,7 @@ function toMonthValue (v) {
 module.exports = {
   isValidDate,
   isValidTime,
+  isValidMonthOnly,
 
   isToday,
   isPast,
