@@ -1,9 +1,5 @@
 'use strict'
 
-'use strict'
-
-const moment = require('moment-timezone')
-
 function _between (v, min, max) {
   return v == null ? false : v >= min && v <= max
 }
@@ -12,6 +8,7 @@ function isValidDate (v) {
   if (!v || !v.year || !_between(v.month, 0, 11) || !v.date) {
     return false
   }
+  const moment = require('moment-timezone')
   const d = moment([v.year, v.month, v.date])
   return d.isValid() && d.date() === v.date && d.month() === v.month && d.year() === v.year
 }
@@ -98,6 +95,7 @@ function toMoment (date, time, timezone) {
     time = time.toObject()
   }
 
+  const moment = require('moment-timezone')
   const timestamp = timezone ? moment().tz(timezone) : moment()
   if (date) {
     // IMPORTANT! assignment order matters! Must be: year -> month -> date
