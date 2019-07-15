@@ -1,9 +1,6 @@
 'use strict'
 
 const _ = require('lodash')
-const moment = require('moment')
-const Big = require('big.js')
-const momentsJsonParser = require('moment-json-parser')
 
 const DATES_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
 const DATES_DEFAULT_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
@@ -41,6 +38,7 @@ function parseMoments (paths) {
     if (!parseMomentsEnabled) {
       return
     }
+    const moment = require('moment')
 
     _.each(paths, path => {
       const value = _.get(src, path)
@@ -87,6 +85,7 @@ function parseAmounts (paths) {
       }
 
       if (_.isString(value) || _.isNumber(value)) {
+        const Big = require('big.js')
         amount = new Big(value)
       } else {
         throw new Error(AMOUNT_ERROR + value)
@@ -116,9 +115,12 @@ module.exports = {
   setMomentsSerializationFormat: function setMomentsSerializationFormat () {
     // change default serialization format for moments
     // http://momentjs.com/docs/#/displaying/as-json/
+    const moment = require('moment')
     moment.fn.toJSON = function () {
       return this.format(DATES_FORMAT)
     }
+
+    const momentsJsonParser = require('moment-json-parser')
     momentsJsonParser.overrideDefault()
   },
 
@@ -126,7 +128,11 @@ module.exports = {
     parseMomentsEnabled = true
   },
 
-  momentsParser: momentsJsonParser.parseValue,
+  momentsParser: function momentsParser (value) {
+    const momentsJsonParser = require('moment-json-parser')
+    return momentsJsonParser.parseValue(value)
+  },
+
   parseMoments,
   parseAmounts,
   parseCollectionItems,
