@@ -28,7 +28,7 @@
     "lodash-deep": "^2.0.0",
     "moment-json-parser": "git://github.com/gastonelhordoy/moment-json-parser.git#v1.0.1",
     "multipipe": "^2.0.3",
-    "nconf": "^0.7.1",
+    "nconf": "^0.11.4",
     "node-cache": "^4.1.1",
     "request": "^2.88.0",
     "sanitize-filename": "^1.6.1",
