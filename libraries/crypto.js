@@ -2,6 +2,10 @@
 
 const crypto = require('crypto')
 
+// TODO: crypto.createCipher/createDecipher were removed in Node 22. Migrating to
+// createCipheriv changes the ciphertext format, so it needs its own change.
+/* eslint-disable n/no-deprecated-api */
+
 function newCrypto (algorithm, password) {
   // https://github.com/chris-rock/node-crypto-examples
   function encrypt (text) {
@@ -19,8 +23,8 @@ function newCrypto (algorithm, password) {
   }
 
   return {
-    encrypt: encrypt,
-    decrypt: decrypt
+    encrypt,
+    decrypt
   }
 }
 

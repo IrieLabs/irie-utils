@@ -38,14 +38,14 @@ function readHugeFile (filePath, lineProcessor, options) {
           // process line here and call s.resume() when rdy
           // function below was for logging memory usage
           lineProcessor(summary.lines, line)
-          .then(() => {
+            .then(() => {
             // resume the readstream
-            s.resume()
-          })
-          .catch(err => {
-            s.end()
-            reject(err)
-          })
+              s.resume()
+            })
+            .catch(err => {
+              s.end()
+              reject(err)
+            })
         } else if (summary.lines === options.startAfterLine) {
           options.logger('Last line skipped: #' + summary.lines, line)
           s.resume()
@@ -53,13 +53,13 @@ function readHugeFile (filePath, lineProcessor, options) {
           s.resume()
         }
       })
-      .on('error', err => {
-        reject(err)
-      })
-      .on('end', () => {
-        resolve(summary)
-      })
-    )
+        .on('error', err => {
+          reject(err)
+        })
+        .on('end', () => {
+          resolve(summary)
+        })
+      )
   })
 }
 

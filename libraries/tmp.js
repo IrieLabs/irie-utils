@@ -19,27 +19,27 @@ function createTempFile (extension, prefix) {
     prefix: prefix || 'tmp-',
     postfix: '.' + (extension || 'tmp')
   })
-  .spread((path, fd, cleaner) => {
-    return { path, fd, cleaner }
-  })
+    .spread((path, fd, cleaner) => {
+      return { path, fd, cleaner }
+    })
 }
 
 function createTempFileFromStream (inputStream, extension, prefix) {
   return createTempFile()
-  .then(tmpFile => {
-    const outputStream = fs.createWriteStream(tmpFile.path)
-    const unifiedStream = multipipe(inputStream, outputStream)
+    .then(tmpFile => {
+      const outputStream = fs.createWriteStream(tmpFile.path)
+      const unifiedStream = multipipe(inputStream, outputStream)
 
-    return streamToPromise(unifiedStream)
-    .then(() => {
-      return Promise.resolve(tmpFile) // wrap in bluebird promise
+      return streamToPromise(unifiedStream)
+        .then(() => {
+          return Promise.resolve(tmpFile) // wrap in bluebird promise
+        })
+        .catch(err => {
+          // remove temp file upon error
+          tmpFile.cleaner()
+          return Promise.reject(err)
+        })
     })
-    .catch(err => {
-      // remove temp file upon error
-      tmpFile.cleaner()
-      return Promise.reject(err)
-    })
-  })
 }
 
 function createTempDir (prefix) {
