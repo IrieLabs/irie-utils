@@ -12,9 +12,6 @@
 const _ = require('lodash')
 const Promise = require('bluebird')
 const NodeCache = require('node-cache')
-let request = require('request')
-
-request = Promise.promisifyAll(request.defaults({ encoding: null }), { multiArgs: true })
 
 module.exports = function buildImageDownloader (options) {
   options = _.defaults(options || {}, {
@@ -48,19 +45,20 @@ module.exports = function buildImageDownloader (options) {
       return Promise.resolve(image)
     }
 
-    return request.getAsync(imgUrl)
-    .spread((res, body) => {
-      let content = new Buffer(body)
-      if (!options.asBuffer) {
-        content = content.toString('base64')
-      }
+    return Promise.resolve(fetch(imgUrl))
+      .then(res => Promise.all([res, res.arrayBuffer()]))
+      .spread((res, body) => {
+        let content = Buffer.from(body)
+        if (!options.asBuffer) {
+          content = content.toString('base64')
+        }
 
-      image = {
-        type: res.headers['content-type'],
-        content: content
-      }
-      IMAGES_CACHE.set(cacheKey, image)
-      return image
-    })
+        image = {
+          type: res.headers.get('content-type'),
+          content
+        }
+        IMAGES_CACHE.set(cacheKey, image)
+        return image
+      })
   }
 }
