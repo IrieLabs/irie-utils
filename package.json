@@ -25,12 +25,10 @@
     "konphyg": "git://github.com/gastonelhordoy/konphyg.git#master",
     "lodash-deep": "^2.0.0",
     "moment-json-parser": "git://github.com/gastonelhordoy/moment-json-parser.git#v1.0.1",
-    "multipipe": "^2.0.3",
     "nconf": "^0.13.0",
     "node-cache": "^5.1.2",
     "sanitize-filename": "^1.6.1",
     "shortid": "^2.2.8",
-    "stream-to-promise": "^2.2.0",
     "tmp": "^0.2.6",
     "uuid": "^11.1.1"
   },
