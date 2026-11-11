@@ -44,10 +44,10 @@ module.exports = function (defaults, options) {
   // Convert all keys to flat ENV_const format
   // {A: 1, FOO: {BAR: 2}} ==> A=1, FOO__BAR=2
   // (Assuming just one level deep)
-  for (let key in defaults) {
+  for (const key in defaults) {
     const value = defaults[key]
     if (typeof value === 'object') {
-      for (let subkey in value) {
+      for (const subkey in value) {
         whitelist.push([key, separator, subkey].join(''))
       }
     } else {
@@ -58,8 +58,8 @@ module.exports = function (defaults, options) {
   // Load ’em up in nconf
   nconf
     .env({
-      whitelist: whitelist,
-      separator: separator
+      whitelist,
+      separator
     })
     .defaults(defaults)
 

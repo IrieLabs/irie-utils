@@ -77,7 +77,7 @@ function compositeValidator (...validators) {
     throw new Error('You need to specify at least one Validator in order to create a Composite Validator')
   }
   return function compositeValidator (value) {
-    for (let validator of validators) {
+    for (const validator of validators) {
       if (!validator(value)) {
         return false
       }
